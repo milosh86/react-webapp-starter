@@ -5,7 +5,12 @@ import {
   storeRefreshTokenInCache,
   storeUserDataInCache
 } from "./localStorage";
-import {getUserDataApi, revokeRefreshTokenApi, signInApi} from "./authApi";
+import {
+  getUserDataApi,
+  refreshAccessTokenApi,
+  revokeRefreshTokenApi,
+  signInApi
+} from "./authApi";
 import delay from "../util/delay";
 
 let authStore = {
