@@ -1,11 +1,18 @@
 import callApi from "../util/callApi";
 import config from "../config/env";
+import delay from "../util/delay";
 
 /**
  *
  * @return Promise<{{accessToken, refreshToken}>
  */
 export function signInApi({ username, password }) {
+  return delay(500).then(() =>
+    Promise.resolve({
+      accessToken: "access hello",
+      refreshToken: "refresh hello"
+    })
+  );
   return callApi({
     url: "login",
     isAuth: true,
@@ -23,6 +30,12 @@ export function signInApi({ username, password }) {
  * @param username
  */
 export function getUserDataApi(username) {
+  return delay(500).then(() =>
+    Promise.resolve({
+      username: "myusername",
+      age: 33
+    })
+  );
   return callApi({
     url: "cpuser/getByUserName",
     method: "POST",
