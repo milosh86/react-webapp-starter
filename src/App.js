@@ -7,7 +7,6 @@ import {
 } from "./auth/localStorage";
 import { immediateSignIn } from "./auth/auth";
 import {
-  Redirect,
   Route,
   BrowserRouter as Router,
   Switch

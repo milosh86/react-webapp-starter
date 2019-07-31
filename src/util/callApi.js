@@ -8,7 +8,7 @@ export const JSON_TYPE = "application/json";
 export const MULTIPART_TYPE = "multipart/form-data";
 
 if (!env.appServer || !env.authServer) {
-  throw "Invalid config file! Check config.js and config/env.js...";
+  throw new Error("Invalid config file! Check config.js and config/env.js...");
 }
 
 /**

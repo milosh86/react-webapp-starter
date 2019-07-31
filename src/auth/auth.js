@@ -56,7 +56,7 @@ function getRefreshToken() {
  * @throws {Error} NO_TOKEN, NO_SERVER, NO_USER_DATA
  */
 export async function signIn({ username, password }) {
-  let { accessToken, refreshToken, servers } = await signInApi({
+  let { accessToken, refreshToken } = await signInApi({
     username,
     password
   });
