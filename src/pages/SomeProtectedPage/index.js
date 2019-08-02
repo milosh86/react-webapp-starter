@@ -13,8 +13,6 @@ class SomeProtectedPage extends Component {
   }
 }
 
-SomeProtectedPage.propTypes = {
-  prop: PropTypes.string.isRequired
-};
+SomeProtectedPage.propTypes = {};
 
 export default SomeProtectedPage;

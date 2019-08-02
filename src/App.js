@@ -22,6 +22,7 @@ import Header from "./components/Header";
 import { registerLocaleChangeListener } from "./i18n";
 
 const SignInPage = lazy(() => import("./pages/SignInPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const SomeProtectedPage = lazy(() => import("./pages/SomeProtectedPage"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
@@ -79,6 +80,7 @@ class App extends React.Component {
         <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/login" component={SignInPage} />
+            <Route path="/sign-up" component={SignUpPage} />
             <Redirect exact from="/" to="home" />
             <PrivateRoute path="/home" component={SomeProtectedPage} />
             <PrivateRoute component={PageNotFound} />

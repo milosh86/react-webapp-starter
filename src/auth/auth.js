@@ -9,7 +9,8 @@ import {
   getUserDataApi,
   refreshAccessTokenApi,
   revokeRefreshTokenApi,
-  signInApi
+  signInApi,
+  signUpApi,
 } from "./authApi";
 import delay from "../util/delay";
 
@@ -100,6 +101,40 @@ export function immediateSignIn({ accessToken, refreshToken, userData }) {
   updateAccessToken(accessToken);
   updateRefreshToken(refreshToken);
   updateUserData(userData);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ *
+ * @param username
+ * @param password
+ * @param email
+ * @return {Promise<void>}
+ * @throws {Error} NO_TOKEN, NO_SERVER, NO_USER_DATA
+ */
+export async function signUp({ username, email, password }) {
+  let { accessToken, refreshToken, userData } = await signUpApi({
+    username,
+    password
+  });
+
+  if (!accessToken || !refreshToken) {
+    throw new Error("NO_TOKEN");
+  }
+
+  if (!userData) {
+    throw new Error("NO_USER_DATA");
+  }
+
+  updateAccessToken(accessToken);
+  updateRefreshToken(refreshToken);
+  updateUserData(userData);
+
+  if (authUpdateListener) {
+    authUpdateListener();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

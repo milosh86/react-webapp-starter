@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styles from "./signInPage.module.css";
 import { signIn } from "../../auth/auth";
+import { Link } from "react-router-dom";
 
 class SignInPage extends Component {
   state = {
@@ -46,6 +47,7 @@ class SignInPage extends Component {
         {this.state.error ? (
           <div className={styles.ErrorMessage}>{this.state.error}</div>
         ) : null}
+        <Link to="/sign-up">Sign Up</Link>
       </div>
     );
   }

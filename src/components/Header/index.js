@@ -40,8 +40,6 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {
-  prop: PropTypes.string.isRequired
-};
+Header.propTypes = {};
 
 export default Header;

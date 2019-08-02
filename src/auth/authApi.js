@@ -4,7 +4,7 @@ import delay from "../util/delay";
 
 /**
  *
- * @return Promise<{{accessToken, refreshToken}>
+ * @return Promise<{accessToken, refreshToken}>
  */
 export function signInApi({ username, password }) {
   return delay(500).then(() =>
@@ -40,6 +40,30 @@ export function getUserDataApi(username) {
     url: "cpuser/getByUserName",
     method: "POST",
     body: { username }
+  });
+}
+
+/**
+ *
+ * @return Promise<{accessToken, refreshToken, userData}>
+ */
+export function signUpApi({ username, email, password }) {
+  return delay(500).then(() =>
+    Promise.resolve({
+      accessToken: "access hello",
+      refreshToken: "refresh hello",
+      userData: { username, email }
+    })
+  );
+  return callApi({
+    url: "signUp",
+    isAuth: true,
+    method: "POST",
+    body: {
+      username,
+      password,
+      email
+    }
   });
 }
 

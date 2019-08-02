@@ -7,8 +7,6 @@ class PageNotFound extends Component {
   }
 }
 
-PageNotFound.propTypes = {
-  prop: PropTypes.string.isRequired
-};
+PageNotFound.propTypes = {};
 
 export default PageNotFound;
