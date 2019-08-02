@@ -22,6 +22,12 @@ let authStore = {
 window.__APP_DEBUG__ = window.__APP_DEBUG__ || {};
 window.__APP_DEBUG__.authStore = authStore;
 
+let authUpdateListener;
+
+export function registerAuthUpdateListener(listener) {
+  authUpdateListener = listener;
+}
+
 function updateAccessToken(accessToken) {
   storeAccessTokenInCache(accessToken);
   authStore.accessToken = accessToken;
@@ -69,6 +75,10 @@ export async function signIn({ username, password }) {
   updateRefreshToken(refreshToken);
 
   await getUserData(username);
+
+  if (authUpdateListener) {
+    authUpdateListener();
+  }
 }
 
 async function getUserData(username) {
@@ -99,7 +109,7 @@ export function immediateSignIn({ accessToken, refreshToken, userData }) {
  *
  * @return {Promise<void>}
  */
-async function signOut() {
+export async function signOut() {
   clearAllFromCache();
 
   // fire and forget, we don't care if it was successfully done or not.

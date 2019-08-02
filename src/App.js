@@ -5,14 +5,21 @@ import {
   getRefreshTokenFromCache,
   getUserDataFromCache
 } from "./auth/localStorage";
-import { immediateSignIn } from "./auth/auth";
+import {
+  immediateSignIn,
+  isAuthenticated,
+  registerAuthUpdateListener
+} from "./auth/auth";
 import {
   Route,
   BrowserRouter as Router,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import PrivateRoute from "./components/PrivateRoute";
+import Header from "./components/Header";
+import { registerLocaleChangeListener } from "./i18n";
 
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const SomeProtectedPage = lazy(() => import("./pages/SomeProtectedPage"));
@@ -28,6 +35,13 @@ class App extends React.Component {
     this.setState({
       isInitialized: true
     });
+
+    // EXPERIMENTAL
+    // Update the whole App on important updates in global modules (locale, auth)...
+    // It seems easier to hook global modules like this, than using react Context API,
+    // or storing global info in Redux.
+    registerLocaleChangeListener(() => this.forceUpdate());
+    registerAuthUpdateListener(() => this.forceUpdate());
   }
 
   initSignInDataFromCache() {
@@ -55,17 +69,18 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.isInitialized === false) return <Spinner />;
+    if (this.state.isInitialized === false) {
+      return <Spinner />;
+    }
 
     return (
       <Router>
+        {isAuthenticated() ? <Header /> : null}
         <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/login" component={SignInPage} />
-            <PrivateRoute
-              path="/some-protected-page"
-              component={SomeProtectedPage}
-            />
+            <Redirect exact from="/" to="home" />
+            <PrivateRoute path="/home" component={SomeProtectedPage} />
             <PrivateRoute component={PageNotFound} />
           </Switch>
         </Suspense>

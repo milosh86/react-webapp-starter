@@ -1,0 +1,24 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid lightgray;
+}
+
+.Right {
+  display: flex;
+}
+
+.Locale,
+.Locale button {
+  margin-right: 10px;
+}
+
+.LocaleButton {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 5px;
+}
+.LocaleSelected {
+  color: coral;
+}
