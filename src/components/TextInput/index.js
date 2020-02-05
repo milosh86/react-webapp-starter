@@ -18,7 +18,11 @@ class TextInput extends Component {
     } = this.props;
     return (
       <div
-        className={classNames(styles.Wrapper, "form-group", error ? "has-error" : undefined)}
+        className={classNames(
+          styles.Wrapper,
+          "form-group",
+          error ? "has-error" : undefined
+        )}
       >
         <label className="form-label" htmlFor="input-example-1">
           {label}
@@ -46,7 +50,7 @@ TextInput.propTypes = {
   isRequired: PropTypes.bool,
   name: PropTypes.string,
   type: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.oneOfType(PropTypes.string, PropTypes.bool)
 };
 
 export default TextInput;

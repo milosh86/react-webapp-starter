@@ -2,9 +2,23 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { isAuthenticated, signOut, signUp } from "../../auth/auth";
 import styles from "./signUpPage.module.css";
+import signInStyles from "../SignInPage/signInPage.module.css";
+import Divider from "../../components/Divider";
+import TextInput from "../../components/TextInput";
+import Button from "../../components/Button";
+import Link from "../../components/Link";
+import Checkbox from "../../components/Checkbox";
+
+let initialErrorState = {
+  errorMessage: "",
+  isEmailInvalid: false,
+  isPasswordInvalid: false,
+  isConfirmPasswordInvalid: false,
+  isAcceptTermsAndConditionsInvalid: false,
+};
 
 function SignUpPage({ history }) {
-  let [error, setError] = useState("");
+  let [error, setError] = useState(initialErrorState);
 
   useEffect(() => {
     if (isAuthenticated()) signOut();
@@ -12,53 +26,128 @@ function SignUpPage({ history }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    setError("");
+    setError(initialErrorState);
 
     const email = event.target.email.value;
-    const username = event.target.username.value;
     const password = event.target.password.value;
     const confirmPassword = event.target.confirmPassword.value;
+    const acceptTermsAndConditions = event.target.acceptTermsAndConditions.checked;
 
-    if (!username || !password || !email) {
-      setError("Username, password and email are required!");
+    if (!password || !email) {
+      setError({
+        errorMessage: "Email and password are required!",
+        isEmailInvalid: !email,
+        isPasswordInvalid: !password,
+        isConfirmPasswordInvalid: !confirmPassword,
+        isAcceptTermsAndConditionsInvalid: !acceptTermsAndConditions
+      });
       return;
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-      setError("Invalid email");
+      setError({
+        errorMessage: "Invalid email!",
+        isEmailInvalid: true,
+        isPasswordInvalid: false,
+        isConfirmPasswordInvalid: false,
+        isAcceptTermsAndConditionsInvalid: false
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("The password confirmation does not match");
+      setError({
+        errorMessage: "The password confirmation does not match!",
+        isEmailInvalid: false,
+        isPasswordInvalid: false,
+        isConfirmPasswordInvalid: true,
+        isAcceptTermsAndConditionsInvalid: false
+      });
       return;
     }
 
-    signUp({ username, password, email })
+    if (!acceptTermsAndConditions) {
+      setError({
+        errorMessage: "You must accept Terms and Conditions!",
+        isEmailInvalid: false,
+        isPasswordInvalid: false,
+        isConfirmPasswordInvalid: false,
+        isAcceptTermsAndConditionsInvalid: true
+      });
+      return;
+    }
+
+    signUp({ password, email })
       .then(() => {
         history.replace("/");
       })
       .catch(err => {
         console.warn("Sign Up failed:", err);
-        setError("Sign In failed!");
+        setError({
+          errorMessage: "Sign In failed!",
+          isEmailInvalid: false,
+          isPasswordInvalid: false,
+          isConfirmPasswordInvalid: false
+        });
       });
   }
 
   return (
-    <div className={styles.Wrapper}>
-      <form className={styles.Form} onSubmit={handleSubmit}>
-        <h1>Sign Up</h1>
-        <input type="text" name="username" placeholder="Username" />
-        <input type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <input
+    <div className={signInStyles.Wrapper}>
+      <form className={signInStyles.Form} onSubmit={handleSubmit}>
+        <h3>Create an account</h3>
+        <Divider />
+        <TextInput
+          name="email"
+          label="Your Email"
+          placeholder="Your Email"
+          isRequired
+          error={error.isEmailInvalid}
+        />
+        <TextInput
+          type="password"
+          name="password"
+          label="Password"
+          placeholder="Password"
+          isRequired
+          error={error.isPasswordInvalid}
+        />
+        <TextInput
           type="password"
           name="confirmPassword"
+          label="Confirm Password"
           placeholder="Confirm Password"
+          isRequired
+          error={error.isConfirmPasswordInvalid}
         />
-        <button type="submit">Submit</button>
+        <Checkbox
+          name="acceptTermsAndConditions"
+          className={styles.TermsAndConditions}
+          label={
+            <span>
+              I accept{" "}
+              <Link isExternal={true} to="http://policy">
+                data protection policy
+              </Link>{" "}
+              &{" "}
+              <Link isExternal={true} to="http://terms">
+                terms and conditions
+              </Link>
+            </span>
+          }
+          error={error.isAcceptTermsAndConditionsInvalid}
+        />
+        <Button type="submit" className={styles.SubmitButton}>
+          Create your account
+        </Button>
+        {error.errorMessage ? (
+          <div className={signInStyles.ErrorMessage}>{error.errorMessage}</div>
+        ) : null}
+        <Divider />
+        <div className={signInStyles.ForgotPasswordWrapper}>
+          Already have an account? <Link to="/login">Login!</Link>
+        </div>
       </form>
-      {error ? <div className={styles.ErrorMessage}>{error}</div> : null}
     </div>
   );
 }

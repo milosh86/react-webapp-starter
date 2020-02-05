@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styles from "./signInPage.module.css";
 import { signIn } from "../../auth/auth";
-import { Link } from "react-router-dom";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
+import Link from "../../components/Link";
 
 class SignInPage extends Component {
   state = {
@@ -78,7 +78,7 @@ class SignInPage extends Component {
           <Divider />
           <div className={styles.ForgotPasswordWrapper}>
             Forgot your password?{" "}
-            <Link to="/reset-password" className="text-success">Reset your passwords!</Link>
+            <Link to="/reset-password">Reset your passwords!</Link>
           </div>
         </form>
 

@@ -26,6 +26,7 @@
 
 .ErrorMessage {
   color: coral;
+  margin-bottom: 10px;
 }
 
 .ForgotPasswordWrapper {
