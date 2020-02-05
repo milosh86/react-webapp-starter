@@ -9,21 +9,29 @@
 
 .Form {
   padding: 20px;
+  min-width: 400px;
   border: 1px solid lightgray;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  background-color: rgb(251, 251, 251);
 }
 
-.Form input {
-  margin-top: 10px;
-}
+.Form input {}
 
-.Form button {
-  margin-top: 10px;
-  text-align: center;
+.SubmitButton {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .ErrorMessage {
   color: coral;
+}
+
+.ForgotPasswordWrapper {
+  display: flex;
+}
+
+.ForgotPasswordWrapper a {
+  margin-left: 5px;
 }

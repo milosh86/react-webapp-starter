@@ -3,21 +3,34 @@ import PropTypes from "prop-types";
 import styles from "./signInPage.module.css";
 import { signIn } from "../../auth/auth";
 import { Link } from "react-router-dom";
+import TextInput from "../../components/TextInput";
+import Button from "../../components/Button";
+import Divider from "../../components/Divider";
 
 class SignInPage extends Component {
   state = {
+    usernameError: "",
+    passwordError: "",
     error: ""
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ error: "" });
+    this.setState({
+      error: "",
+      usernameError: "",
+      passwordError: ""
+    });
 
     const username = event.target.username.value;
     const password = event.target.password.value;
 
     if (!username || !password) {
-      this.setState({ error: "Username and password are required!" });
+      this.setState({
+        error: "Username and password are required!",
+        usernameError: !username ? "error" : "",
+        passwordError: !password ? "error" : ""
+      });
       return;
     }
 
@@ -39,14 +52,36 @@ class SignInPage extends Component {
     return (
       <div className={styles.Wrapper}>
         <form className={styles.Form} onSubmit={this.handleSubmit}>
-          <h1>Sign In</h1>
-          <input type="text" name="username" placeholder="Username" />
-          <input type="password" name="password" placeholder="Password" />
-          <button type="submit">Submit</button>
+          <h3>Login to your account</h3>
+          <Divider />
+          <TextInput
+            name="username"
+            label="Your Email"
+            placeholder="Your Email"
+            isRequired
+            error={this.state.usernameError}
+          />
+          <TextInput
+            type="password"
+            name="password"
+            label="Your Password"
+            placeholder="Your Password"
+            isRequired
+            error={this.state.passwordError}
+          />
+          <Button type="submit" className={styles.SubmitButton}>
+            Login to your account
+          </Button>
+          {this.state.error ? (
+            <div className={styles.ErrorMessage}>{this.state.error}</div>
+          ) : null}
+          <Divider />
+          <div className={styles.ForgotPasswordWrapper}>
+            Forgot your password?{" "}
+            <Link to="/reset-password" className="text-success">Reset your passwords!</Link>
+          </div>
         </form>
-        {this.state.error ? (
-          <div className={styles.ErrorMessage}>{this.state.error}</div>
-        ) : null}
+
         <Link to="/sign-up">Sign Up</Link>
       </div>
     );
