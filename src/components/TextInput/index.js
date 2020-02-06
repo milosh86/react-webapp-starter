@@ -26,7 +26,7 @@ class TextInput extends Component {
       >
         <label className="form-label" htmlFor="input-example-1">
           {label}
-          {isRequired && <sup>*</sup>}
+          {isRequired && <sup className={styles.RequiredAsterisk}>*</sup>}
         </label>
         <input
           type={type}

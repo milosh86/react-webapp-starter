@@ -68,6 +68,22 @@ export function signUpApi({ username, email, password }) {
 }
 
 /**
+ *
+ * @return Promise<{accessToken, refreshToken, userData}>
+ */
+export function resetPasswordApi({ email }) {
+  return delay(500).then(() => Promise.reject());
+  return callApi({
+    url: "resetPassword",
+    isAuth: true,
+    method: "POST",
+    body: {
+      email
+    }
+  });
+}
+
+/**
  * Refresh token should be set in Authorization header.
  *
  * @param refreshToken

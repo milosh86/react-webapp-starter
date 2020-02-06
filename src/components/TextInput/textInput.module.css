@@ -1,3 +1,10 @@
 .Wrapper :global(.form-label) {
-  padding: .2rem 0;
+  padding: 0.1rem 0;
+}
+
+.RequiredAsterisk {
+  font-size: 100%;
+  margin: 3px;
+  position: relative;
+  top: -1px;
 }

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { isAuthenticated, signOut, signUp } from "../../auth/auth";
-import styles from "./signUpPage.module.css";
-import signInStyles from "../SignInPage/signInPage.module.css";
 import Divider from "../../components/Divider";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 import Checkbox from "../../components/Checkbox";
+
+import classNames from 'classnames';
+import styles from "./signUpPage.module.css";
+import signInStyles from "../SignInPage/signInPage.module.css";
 
 let initialErrorState = {
   errorMessage: "",
@@ -141,7 +143,7 @@ function SignUpPage({ history }) {
           Create your account
         </Button>
         {error.errorMessage ? (
-          <div className={signInStyles.ErrorMessage}>{error.errorMessage}</div>
+          <div className={classNames(signInStyles.ErrorMessage, "text-error")}>{error.errorMessage}</div>
         ) : null}
         <Divider />
         <div className={signInStyles.ForgotPasswordWrapper}>

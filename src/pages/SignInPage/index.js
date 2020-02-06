@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./signInPage.module.css";
 import { signIn } from "../../auth/auth";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import Link from "../../components/Link";
+
+import classNames from 'classnames';
+import styles from "./signInPage.module.css";
 
 class SignInPage extends Component {
   state = {
@@ -73,7 +75,7 @@ class SignInPage extends Component {
             Login to your account
           </Button>
           {this.state.error ? (
-            <div className={styles.ErrorMessage}>{this.state.error}</div>
+            <div className={classNames(styles.ErrorMessage, "text-error")}>{this.state.error}</div>
           ) : null}
           <Divider />
           <div className={styles.ForgotPasswordWrapper}>
