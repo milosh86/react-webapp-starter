@@ -6,7 +6,7 @@ import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 
-import { resetPasswordApi } from "../../auth/authApi";
+import {resetPasswordApi} from "./resetPasswordApi";
 
 import classNames from 'classnames';
 import styles from "./resetPasswordPage.module.css";

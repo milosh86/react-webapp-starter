@@ -24,6 +24,7 @@ import { registerLocaleChangeListener } from "./i18n";
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
+const ConfirmNewPasswordPage = lazy(() => import("./pages/ConfirmNewPasswordPage"));
 const SomeProtectedPage = lazy(() => import("./pages/SomeProtectedPage"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
@@ -83,6 +84,7 @@ class App extends React.Component {
             <Route path="/login" component={SignInPage} />
             <Route path="/sign-up" component={SignUpPage} />
             <Route path="/reset-password" component={ResetPasswordPage} />
+            <Route path="/confirm-password" component={ConfirmNewPasswordPage} />
             <Redirect exact from="/" to="home" />
             <PrivateRoute path="/home" component={SomeProtectedPage} />
             <PrivateRoute component={PageNotFound} />
