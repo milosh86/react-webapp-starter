@@ -1,42 +1,47 @@
-import React, { Suspense, lazy } from "react";
+import React, {Suspense, lazy} from "react";
 import jwtDecode from "jwt-decode";
 import {
   getAccessTokenFromCache,
   getRefreshTokenFromCache,
-  getUserDataFromCache
+  getUserDataFromCache,
 } from "./auth/localStorage";
 import {
   immediateSignIn,
   isAuthenticated,
-  registerAuthUpdateListener
+  registerAuthUpdateListener,
+  signOut,
 } from "./auth/auth";
 import {
   Route,
   BrowserRouter as Router,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/Header";
-import { registerLocaleChangeListener } from "./i18n";
+import {registerLocaleChangeListener} from "./i18n";
+import Navigation from "./components/Navigation";
 
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
-const ConfirmNewPasswordPage = lazy(() => import("./pages/ConfirmNewPasswordPage"));
+const ConfirmNewPasswordPage = lazy(() =>
+  import("./pages/ConfirmNewPasswordPage")
+);
 const SomeProtectedPage = lazy(() => import("./pages/SomeProtectedPage"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 class App extends React.Component {
   state = {
-    isInitialized: false
+    isInitialized: false,
+    isNavigationExpanded: true,
   };
 
   componentDidMount() {
     this.initSignInDataFromCache();
     this.setState({
-      isInitialized: true
+      isInitialized: true,
     });
 
     // EXPERIMENTAL
@@ -68,7 +73,7 @@ class App extends React.Component {
     //   return;
     // }
 
-    immediateSignIn({ accessToken, refreshToken, userData });
+    immediateSignIn({accessToken, refreshToken, userData});
   }
 
   render() {
@@ -78,18 +83,45 @@ class App extends React.Component {
 
     return (
       <Router>
-        {isAuthenticated() ? <Header /> : null}
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route path="/login" component={SignInPage} />
-            <Route path="/sign-up" component={SignUpPage} />
-            <Route path="/reset-password" component={ResetPasswordPage} />
-            <Route path="/confirm-password" component={ConfirmNewPasswordPage} />
-            <Redirect exact from="/" to="home" />
-            <PrivateRoute path="/home" component={SomeProtectedPage} />
-            <PrivateRoute component={PageNotFound} />
-          </Switch>
-        </Suspense>
+        {isAuthenticated() ? (
+          <Route
+            render={({location, history}) => (
+              <Navigation
+                history={history}
+                location={location}
+                expanded={this.state.isNavigationExpanded}
+                onExpandedChange={expanded =>
+                  this.setState({isNavigationExpanded: expanded})
+                }
+                signOut={signOut}
+              />
+            )}
+          />
+        ) : null}
+        <main
+          style={
+            isAuthenticated()
+              ? {
+                  marginLeft: this.state.isNavigationExpanded ? 240 : 64,
+                  padding: "15px 20px 0 20px",
+                }
+              : {}
+          }>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route path="/login" component={SignInPage} />
+              <Route path="/sign-up" component={SignUpPage} />
+              <Route path="/reset-password" component={ResetPasswordPage} />
+              <Route
+                path="/confirm-password"
+                component={ConfirmNewPasswordPage}
+              />
+              <Redirect exact from="/" to="home" />
+              <PrivateRoute path="/home" component={SomeProtectedPage} />
+              <PrivateRoute component={PageNotFound} />
+            </Switch>
+          </Suspense>
+        </main>
       </Router>
     );
   }

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { signIn } from "../../auth/auth";
+import {signIn} from "../../auth/auth";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import Link from "../../components/Link";
 
-import classNames from 'classnames';
+import classNames from "classnames";
 import styles from "./signInPage.module.css";
 
 class SignInPage extends Component {
   state = {
     usernameError: "",
     passwordError: "",
-    error: ""
+    error: "",
   };
 
   handleSubmit = event => {
@@ -21,7 +21,7 @@ class SignInPage extends Component {
     this.setState({
       error: "",
       usernameError: "",
-      passwordError: ""
+      passwordError: "",
     });
 
     const username = event.target.username.value;
@@ -31,22 +31,22 @@ class SignInPage extends Component {
       this.setState({
         error: "Username and password are required!",
         usernameError: !username ? "error" : "",
-        passwordError: !password ? "error" : ""
+        passwordError: !password ? "error" : "",
       });
       return;
     }
 
-    signIn({ username, password })
+    signIn({username, password})
       .then(() => {
         const redirectState = this.props.location.state || {};
-        const { from = { pathname: "/" } } = redirectState;
+        const {from = {pathname: "/"}} = redirectState;
         this.props.history.replace(
           from.pathname.includes("logout") ? "/" : from
         );
       })
       .catch(err => {
         console.warn("SignIn failed:", err);
-        this.setState({ error: "Sign In failed!" });
+        this.setState({error: "Sign In failed!"});
       });
   };
 
@@ -75,7 +75,9 @@ class SignInPage extends Component {
             Login to your account
           </Button>
           {this.state.error ? (
-            <div className={classNames(styles.ErrorMessage, "text-error")}>{this.state.error}</div>
+            <div className={classNames(styles.ErrorMessage, "text-error")}>
+              {this.state.error}
+            </div>
           ) : null}
           <Divider />
           <div className={styles.ForgotPasswordWrapper}>
@@ -92,7 +94,7 @@ class SignInPage extends Component {
 
 SignInPage.propTypes = {
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 export default SignInPage;

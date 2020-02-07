@@ -1,0 +1,14 @@
+.NavHeader {
+  height: 44px;
+  background-color: rgb(61, 202, 63);
+}
+
+.UserInfo {
+  color: white;
+  padding: 10px 15px;
+  line-height: 1.5;
+}
+
+.UserRole {
+  font-size: 80%;
+}
