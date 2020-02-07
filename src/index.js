@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import "./styles/global.css";
+import "./styles/spectre-0.5.8/dist/spectre.css";
 
 ReactDOM.render(
   <Provider store={store}>
