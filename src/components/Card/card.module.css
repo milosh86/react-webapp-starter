@@ -1,0 +1,12 @@
+.Wrapper {
+  padding: 20px;
+  min-width: 400px;
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  background-color: rgb(251, 251, 251);
+}
+
+.Wrapper h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}

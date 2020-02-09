@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 import Link from "../../components/Link";
@@ -8,41 +8,42 @@ import Divider from "../../components/Divider";
 
 import {resetPasswordApi} from "./resetPasswordApi";
 
-import classNames from 'classnames';
+import classNames from "classnames";
 import styles from "./resetPasswordPage.module.css";
 import signInStyles from "../SignInPage/signInPage.module.css";
+import Card from "../../components/Card";
 
 class ResetPasswordPage extends Component {
   state = {
     error: "",
-    isRequestSubmitted: false
+    isRequestSubmitted: false,
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ error: "" });
+    this.setState({error: ""});
 
     const email = event.target.email.value;
 
     if (!email) {
-      this.setState({ error: "Email is required!" });
+      this.setState({error: "Email is required!"});
       return;
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-      this.setState({ error: "Invalid email!" });
+      this.setState({error: "Invalid email!"});
       return;
     }
 
-    resetPasswordApi({ email })
+    resetPasswordApi({email})
       .then(() => {
-        this.setState({ isRequestSubmitted: true });
+        this.setState({isRequestSubmitted: true});
       })
       .catch(err => {
         console.warn("Sign Up failed:", err);
         this.setState({
           error:
-            "Reset attempt has failed, please try again or contact support."
+            "Reset attempt has failed, please try again or contact support.",
         });
       });
   };
@@ -71,29 +72,28 @@ class ResetPasswordPage extends Component {
   render() {
     return (
       <div className={signInStyles.Wrapper}>
-        <form className={signInStyles.Form} onSubmit={this.handleSubmit}>
-          <h3>Reset your password</h3>
-          <Divider />
-          {this.renderFormBody()}
-          {this.state.error ? (
-            <div
-              className={classNames(signInStyles.ErrorMessage, "text-error")}
-            >
-              {this.state.error}
+        <Card title="Reset your password">
+          <form className={signInStyles.Form} onSubmit={this.handleSubmit}>
+            {this.renderFormBody()}
+            {this.state.error ? (
+              <div
+                className={classNames(signInStyles.ErrorMessage, "text-error")}>
+                {this.state.error}
+              </div>
+            ) : null}
+            <Divider />
+            <div className={signInStyles.ForgotPasswordWrapper}>
+              Do you have an account? <Link to="/login">Login!</Link>
             </div>
-          ) : null}
-          <Divider />
-          <div className={signInStyles.ForgotPasswordWrapper}>
-            Do you have an account? <Link to="/login">Login!</Link>
-          </div>
-        </form>
+          </form>
+        </Card>
       </div>
     );
   }
 }
 
 ResetPasswordPage.propTypes = {
-  prop: PropTypes.string.isRequired
+  prop: PropTypes.string.isRequired,
 };
 
 export default ResetPasswordPage;

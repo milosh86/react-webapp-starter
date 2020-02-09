@@ -4,6 +4,7 @@ import { translate } from "../../i18n";
 import { connect } from "react-redux";
 import { resourceFetchRequest } from "./someProtectedPageActions";
 import Spinner from "../../components/Spinner";
+import Card from "../../components/Card";
 
 class SomeProtectedPage extends Component {
   componentDidMount() {
@@ -37,6 +38,7 @@ class SomeProtectedPage extends Component {
         <h1>Some Protected Page...</h1>
         Hello there, this is {translate("someMessage")}
         <div>{this.renderPageContent()}</div>
+        <Card title="Hello, some card!" />
       </div>
     );
   }

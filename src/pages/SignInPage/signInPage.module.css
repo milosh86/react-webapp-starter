@@ -8,16 +8,9 @@
 }
 
 .Form {
-  padding: 20px;
-  min-width: 400px;
-  border: 1px solid lightgray;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(251, 251, 251);
 }
-
-.Form input {}
 
 .SubmitButton {
   margin-top: 20px;

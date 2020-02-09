@@ -8,6 +8,7 @@ import Link from "../../components/Link";
 
 import classNames from "classnames";
 import styles from "./signInPage.module.css";
+import Card from "../../components/Card";
 
 class SignInPage extends Component {
   state = {
@@ -53,38 +54,38 @@ class SignInPage extends Component {
   render() {
     return (
       <div className={styles.Wrapper}>
-        <form className={styles.Form} onSubmit={this.handleSubmit}>
-          <h3>Login to your account</h3>
-          <Divider />
-          <TextInput
-            name="username"
-            label="Your Email"
-            placeholder="Your Email"
-            isRequired
-            error={this.state.usernameError}
-          />
-          <TextInput
-            type="password"
-            name="password"
-            label="Your Password"
-            placeholder="Your Password"
-            isRequired
-            error={this.state.passwordError}
-          />
-          <Button type="submit" className={styles.SubmitButton}>
-            Login to your account
-          </Button>
-          {this.state.error ? (
-            <div className={classNames(styles.ErrorMessage, "text-error")}>
-              {this.state.error}
+        <Card title="Login to your account">
+          <form className={styles.Form} onSubmit={this.handleSubmit}>
+            <TextInput
+              name="username"
+              label="Your Email"
+              placeholder="Your Email"
+              isRequired
+              error={this.state.usernameError}
+            />
+            <TextInput
+              type="password"
+              name="password"
+              label="Your Password"
+              placeholder="Your Password"
+              isRequired
+              error={this.state.passwordError}
+            />
+            <Button type="submit" className={styles.SubmitButton}>
+              Login to your account
+            </Button>
+            {this.state.error ? (
+              <div className={classNames(styles.ErrorMessage, "text-error")}>
+                {this.state.error}
+              </div>
+            ) : null}
+            <Divider />
+            <div className={styles.ForgotPasswordWrapper}>
+              Forgot your password?{" "}
+              <Link to="/reset-password">Reset your passwords!</Link>
             </div>
-          ) : null}
-          <Divider />
-          <div className={styles.ForgotPasswordWrapper}>
-            Forgot your password?{" "}
-            <Link to="/reset-password">Reset your passwords!</Link>
-          </div>
-        </form>
+          </form>
+        </Card>
 
         <Link to="/sign-up">Sign Up</Link>
       </div>
